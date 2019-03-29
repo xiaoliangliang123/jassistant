@@ -1,6 +1,5 @@
-package com.client.view;
+package com.client.common.view;
 
-import com.client.values.StringText;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,11 +22,12 @@ public class MainWindow extends JFrame {
         int screenWidth = screenSize.width; //获取屏幕的宽
         int screenHeight = screenSize.height; //获取屏幕的高
         this.add(jTabbedPane);
-        this.setVisible(true);
+
         this.setSize(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
 
     }
 
-    public void init() {
+    public void visible() {
+        this.setVisible(true);
     }
 }

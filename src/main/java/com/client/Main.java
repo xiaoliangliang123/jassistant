@@ -1,7 +1,9 @@
 package com.client;
 
-import com.client.view.LoginWindow;
-import com.client.view.MainWindow;
+import com.client.common.config.BeanUtils;
+import com.client.common.view.LoginWindow;
+
+
 
 public class Main {
 
@@ -9,12 +11,9 @@ public class Main {
     public static void main(String[] args) {
 
 
-        /*
-          MainWindow mainWindow = new MainWindow();
-          mainWindow.init();
-          */
-
+        BeanUtils.getInstance().init();
         LoginWindow loginWindow = new LoginWindow();
+        loginWindow.visible();
 
     }
 }
