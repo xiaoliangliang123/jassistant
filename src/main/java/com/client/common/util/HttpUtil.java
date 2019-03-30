@@ -13,17 +13,17 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class HttpUtil {
 
-    public static HttpEntity HttpClientLogin(String userName, String password,
-                                        String loginUrl) throws Exception {
+    public static String httpClientLogin(String userName, String password,
+                                         String loginUrl) throws Exception {
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setConnectionTimeToLive(6000, TimeUnit.MILLISECONDS).build();
-        HttpClientContext context = HttpClientContext.create();
         HttpPost httpPost = new HttpPost(loginUrl.trim());
         List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
         list.add(new BasicNameValuePair("username", userName));
@@ -35,14 +35,32 @@ public class HttpUtil {
         Header[] responseHeader = response.getHeaders("Set-Cookie");
         for (Header header : responseHeader) {
             if (header != null) {
-                System.out.println(header.getName()+":"+header.getValue());
+                System.out.println(header.getName() + ":" + header.getValue());
             }
         }
-        if (entity != null) {
-            System.out.println(EntityUtils.toString(entity, "utf-8"));
+
+        if (response.getStatusLine().getStatusCode() == 302) {
+            String locationUrl = response.getLastHeader("Location").getValue();
+            entity = httpRequest(locationUrl);//跳转到重定向的url
         }
+        String responseBody = "";
+        if (entity != null) {
+            responseBody = EntityUtils.toString(entity, "utf-8");
+        }
+        System.out.println(responseBody);
+        return responseBody;
 
+    }
+
+    public static HttpEntity httpRequest(String url) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .setConnectionTimeToLive(6000, TimeUnit.MILLISECONDS).build();
+        HttpPost httpPost = new HttpPost(url.trim());
+        List<BasicNameValuePair> list = new ArrayList<BasicNameValuePair>();
+        httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
+        CloseableHttpResponse response = httpClient.execute(httpPost);
+        System.out.println(response.getStatusLine().getStatusCode());
+        HttpEntity entity = response.getEntity();
         return entity;
-
     }
 }

@@ -10,4 +10,7 @@ public interface ILoginView {
     String getLoginUrl();
 
 
+    void jump2Window();
+
+
 }

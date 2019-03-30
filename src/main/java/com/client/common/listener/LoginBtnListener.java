@@ -1,5 +1,6 @@
 package com.client.common.listener;
 
+import com.client.common.model.JsonResult;
 import com.client.common.presenter.ILoginPresenter;
 import com.client.common.util.StringUtil;
 import com.client.common.util.ViewUtil;
@@ -32,7 +33,12 @@ public class LoginBtnListener implements ActionListener {
         }
 
         try {
-            loginPresenter.login(url,username,password);
+            JsonResult jsonResult =loginPresenter.login(url,username,password);
+            if(jsonResult.getSuccess()){
+                loginPresenter.jump2Window();
+            }else {
+                ViewUtil.alert("用户名或密码不正确");
+            }
         }catch (Exception ex){
             ViewUtil.alert(ex.getMessage());
         }

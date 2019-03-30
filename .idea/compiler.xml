@@ -9,5 +9,8 @@
         <module name="jassistant" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="jassistant" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

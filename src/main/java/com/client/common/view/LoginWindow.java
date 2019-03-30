@@ -83,6 +83,8 @@ public class LoginWindow extends JFrame implements ILoginView {
 
         ILoginPresenter loginPresenter = new LoginPresenterImpl(this);
         loginButton.addActionListener(new LoginBtnListener(loginPresenter));
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
 
     }
@@ -103,5 +105,12 @@ public class LoginWindow extends JFrame implements ILoginView {
 
     public String getLoginUrl() {
         return urlField.getText();
+    }
+
+    @Override
+    public void jump2Window() {
+        this.dispose();
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.visible();
     }
 }

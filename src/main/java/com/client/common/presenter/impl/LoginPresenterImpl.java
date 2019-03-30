@@ -19,7 +19,8 @@ public class LoginPresenterImpl implements ILoginPresenter {
     public JsonResult login(String url, String username, String password) throws Exception {
 
         CommonService commonService = (CommonService) BeanUtils.getInstance().getBean("commonService");
-        return (JsonResult) commonService.login(url, username, password);
+        JsonResult jsonResult = (JsonResult) commonService.login(url, username, password);
+        return  jsonResult;
     }
 
     public String getUsername() {
@@ -32,6 +33,11 @@ public class LoginPresenterImpl implements ILoginPresenter {
 
     public String getLoginUrl() {
         return loginView.getLoginUrl();
+    }
+
+    @Override
+    public void jump2Window() {
+        loginView.jump2Window();
     }
 
 
